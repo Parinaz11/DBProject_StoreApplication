@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="683.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samplePac.Controller">
+   <children>
+      <ImageView fx:id="blurryBack" fitHeight="690.0" fitWidth="1025.0" layoutX="-3.0" layoutY="-4.0">
+         <image>
+            <Image url="@../images/blurry.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blueBack" fitHeight="690.0" fitWidth="1025.0" layoutX="-1.0" layoutY="-2.0" visible="false">
+         <image>
+            <Image url="@../images/slider_2.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </ImageView>
+      <AnchorPane layoutX="291.0" layoutY="123.0" prefHeight="436.0" prefWidth="436.0" style="-fx-background-color: #111111; -fx-background-radius: 10;">
+         <children>
+            <Label fx:id="loginLabel" layoutX="172.0" layoutY="25.0" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma" size="39.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" layoutX="200.0" layoutY="85.0" startX="-64.0" stroke="#76ff03" strokeWidth="3.0" />
+            <TextField fx:id="username" layoutX="103.0" layoutY="129.0" prefHeight="31.0" prefWidth="277.0" promptText="Username" style="-fx-background-color: #333333; -fx-text-fill: #FFFFFF;" />
+            <Button fx:id="loginButton" layoutX="64.0" layoutY="276.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="49.0" prefWidth="309.0" style="-fx-background-color: #76ff03; -fx-background-radius: 90;" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="49.0" fitWidth="52.0" layoutX="30.0" layoutY="120.0">
+               <image>
+                  <Image url="@../images/usericon.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="40.0" layoutY="198.0">
+               <image>
+                  <Image url="@../images/lock2.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="notMember" layoutX="82.0" layoutY="377.0" text="Not a member?" textFill="WHITE">
+               <font>
+                  <Font name="Leelawadee UI" size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="signUpButton" layoutX="234.0" layoutY="376.0" mnemonicParsing="false" onAction="#onSignUpClicked" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #26A7De; -fx-background-radius: 90;" text="Sign up" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Glow level="0.22" />
+               </effect>
+            </Button>
+            <PasswordField fx:id="pw" layoutX="103.0" layoutY="203.0" prefHeight="31.0" prefWidth="277.0" promptText="Password" style="-fx-background-color: #333333; -fx-text-fill: #FFFFFF;" />
+            <Label fx:id="fillUsername" layoutX="103.0" layoutY="110.0" text="Fill in the Username" textFill="#ff6000" visible="false" />
+            <Label fx:id="fillPassword" layoutX="103.0" layoutY="182.0" text="Fill in the Password" textFill="#ff6000" visible="false" />
+            <Label fx:id="createAccountLabel" layoutX="45.0" layoutY="25.0" text="Create your account" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Tahoma" size="39.0" />
+               </font>
+            </Label>
+            <Button fx:id="mainSignUpButton" layoutX="64.0" layoutY="318.0" mnemonicParsing="false" onAction="#onMainSignUpClicked" prefHeight="49.0" prefWidth="309.0" style="-fx-background-color: #26A7De; -fx-background-radius: 90;" text="Sign up" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <CheckBox fx:id="rme" layoutX="157.0" layoutY="381.0" mnemonicParsing="false" text="Remember me" textFill="WHITE" visible="false" />
+            <PasswordField fx:id="rpw" layoutX="103.0" layoutY="245.0" prefHeight="31.0" prefWidth="277.0" promptText="Repeat Password" style="-fx-background-color: #333333; -fx-text-fill: #FFFFFF;" visible="false" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="exitButton" layoutX="14.0" layoutY="628.0" mnemonicParsing="false" onAction="#onExitButtonClicked" prefHeight="41.0" prefWidth="72.0" style="-fx-background-color: #8b0000; -fx-background-radius: 15;" text="EXIT" textFill="WHITE">
+         <font>
+            <Font name="Tahoma" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         
+      </Button>
+   </children>
+</Pane>
