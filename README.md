@@ -1,6 +1,4 @@
-# CRUD-operation-in-java-using-mongodb-and-javafx
-
-This project walks you through a step-by-step process of creating a basic CRUD application using mongodb and javafx
+# StoreApplication-in-java-using-mongodb-and-javafx
 
 For this project we are going to make use of three tools;
 
