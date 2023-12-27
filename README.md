@@ -4,7 +4,7 @@ For this project we are going to make use of three tools;
 
 mongodb server
 
-mongodb-java-driver 3.5 
+mongodb-java-driver 3.12.14
 
 scene builder
 
