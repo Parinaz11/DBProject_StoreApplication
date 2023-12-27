@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import org.bson.Document;
 
@@ -59,11 +60,10 @@ public class Controller implements Initializable{
 
 
     @FXML TextField username, pw, rpw;
-    @FXML Button exitButton, loginButton, signUpButton, mainSignUpButton;
-
+    @FXML Button exitButton, loginButton, signUpButton, mainSignUpButton, backButton;
     @FXML Label fillUsername, fillPassword, loginLabel, createAccountLabel, notMember;
-    @FXML CheckBox rme;
     @FXML ImageView blurryBack, blueBack;
+    @FXML Line pinkLine, greenLine;
 
     MongoClient mongoclient = new MongoClient("localhost", 27017);
     MongoDatabase db = mongoclient.getDatabase("OnlineShop");
@@ -77,11 +77,13 @@ public class Controller implements Initializable{
         fillPassword.setVisible(false);
         loginLabel.setVisible(false);
         createAccountLabel.setVisible(true);
-        rme.setVisible(true);
         rpw.setVisible(true);
         notMember.setVisible(false);
         blurryBack.setVisible(false);
         blueBack.setVisible(true);
+        backButton.setVisible(true);
+        greenLine.setVisible(false);
+        pinkLine.setVisible(true);
 
 
         // getting the info after setting up this scene and clicking Sign up
@@ -101,6 +103,12 @@ public class Controller implements Initializable{
         signUpButton.setOnMouseEntered(e -> signUpButton.setStyle("-fx-background-color: #0077B6; -fx-background-radius: 90;"));
         signUpButton.setOnMouseExited(e -> signUpButton.setStyle("-fx-background-color: #26A7De; -fx-background-radius: 90;"));
 
+        mainSignUpButton.setOnMouseEntered(e -> mainSignUpButton.setStyle("-fx-background-color: #b91297; -fx-background-radius: 90;"));// #187bcd
+        mainSignUpButton.setOnMouseExited(e -> mainSignUpButton.setStyle("-fx-background-color:  #ff00d0; -fx-background-radius: 90;"));
+
+        backButton.setOnMouseEntered(e -> backButton.setStyle("-fx-background-color: #726859; -fx-background-radius: 15;"));
+        backButton.setOnMouseExited(e -> backButton.setStyle("-fx-background-color:   #928E85; -fx-background-radius: 15;"));
+
     }
 
     @FXML
@@ -115,6 +123,8 @@ public class Controller implements Initializable{
         String name = username.getText();
         boolean athrize = true;
         boolean filled = true;
+        fillPassword.setVisible(false);
+        fillUsername.setVisible(false);
 
         if (password.isEmpty()){
             System.out.println("Fill in the password field");
@@ -131,7 +141,7 @@ public class Controller implements Initializable{
             // Finding the user with the same name and password in our DB
 
             // -------------------------------------------------------------------------------------------------------------------------------------------
-            // finding the usename and password in our DB and making sure this customer exists
+            // finding the usename and password in our DB and making sure this customer exists. if they don't, take them to signup page
             // -------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -151,21 +161,39 @@ public class Controller implements Initializable{
             }
         }
 
-        if (name.equals("parinaz")){
-            signUpScene();
-        }
+//        if (name.equals("parinaz")){
+//            signUpScene();
+//        }
     }
 
     @FXML
     public void onSignUpClicked(ActionEvent actionEvent){
         System.out.println("Going to the sign up scene");
+        signUpScene();
         // change the scene
         // then to the shop
     }
 
     public void onMainSignUpClicked(ActionEvent actionEvent) {
+        // Add the username and password to our DB
 
+    }
 
+    public void onBackButtonClicked(ActionEvent actionEvent){
+        loginButton.setVisible(true);
+        signUpButton.setVisible(true);
+        mainSignUpButton.setVisible(false);
+        fillUsername.setVisible(false);
+        fillPassword.setVisible(false);
+        loginLabel.setVisible(true);
+        createAccountLabel.setVisible(false);
+        rpw.setVisible(false);
+        notMember.setVisible(true);
+        blurryBack.setVisible(true);
+        blueBack.setVisible(false);
+        backButton.setVisible(false);
+        pinkLine.setVisible(false);
+        greenLine.setVisible(true);
     }
 
 //    public void getFieldValues(ActionEvent event){
