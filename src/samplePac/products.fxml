@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="863.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samplePac.productsController">
+
+    <top>
+        <TextField fx:id="searchTextField" prefHeight="31.0" prefWidth="1238.0" promptText="Search Product..." />
+    </top>
+
+    <left>
+        <VBox prefHeight="733.0" prefWidth="183.0" xmlns:fx="http://javafx.com/fxml">
+            <children>
+                <ListView fx:id="categoryListView" prefHeight="835.0" prefWidth="183.0" />
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <ListView fx:id="productListView" prefHeight="400.0" prefWidth="300.0" />
+    </center>
+</BorderPane>

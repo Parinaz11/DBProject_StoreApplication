@@ -4,7 +4,7 @@ For this project we are going to make use of three tools;
 
 mongodb server
 
-mongodb-java-driver 3.5 
+mongodb-java-driver 3.12.14
 
 scene builder
 
@@ -52,4 +52,4 @@ Go to the link below to download it,
 
 https://jar-download.com/?search_box=mongo-java-driver
 
-what you need to do now is to add the mongo-java-driver 3.5 to your java library
+what you need to do now is to add the mongo-java-driver 3.12.14 to your java library

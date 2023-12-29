@@ -6,16 +6,21 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import org.bson.Document;
 
@@ -59,11 +64,10 @@ public class Controller implements Initializable{
 
 
     @FXML TextField username, pw, rpw;
-    @FXML Button exitButton, loginButton, signUpButton, mainSignUpButton;
-
+    @FXML Button exitButton, loginButton, signUpButton, mainSignUpButton, backButton;
     @FXML Label fillUsername, fillPassword, loginLabel, createAccountLabel, notMember;
-    @FXML CheckBox rme;
     @FXML ImageView blurryBack, blueBack;
+    @FXML Line pinkLine, greenLine;
 
     MongoClient mongoclient = new MongoClient("localhost", 27017);
     MongoDatabase db = mongoclient.getDatabase("OnlineShop");
@@ -77,14 +81,13 @@ public class Controller implements Initializable{
         fillPassword.setVisible(false);
         loginLabel.setVisible(false);
         createAccountLabel.setVisible(true);
-        rme.setVisible(true);
         rpw.setVisible(true);
         notMember.setVisible(false);
         blurryBack.setVisible(false);
         blueBack.setVisible(true);
-
-
-        // getting the info after setting up this scene and clicking Sign up
+        backButton.setVisible(true);
+        greenLine.setVisible(false);
+        pinkLine.setVisible(true);
     }
 
     @Override
@@ -95,11 +98,17 @@ public class Controller implements Initializable{
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
 
 
-        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #40aa00; -fx-background-radius: 90;"));
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #2bea0f; -fx-background-radius: 90;"));//40aa00
         loginButton.setOnMouseExited(e -> loginButton.setStyle("-fx-background-color:  #76ff03; -fx-background-radius: 90;"));
 
         signUpButton.setOnMouseEntered(e -> signUpButton.setStyle("-fx-background-color: #0077B6; -fx-background-radius: 90;"));
         signUpButton.setOnMouseExited(e -> signUpButton.setStyle("-fx-background-color: #26A7De; -fx-background-radius: 90;"));
+
+        mainSignUpButton.setOnMouseEntered(e -> mainSignUpButton.setStyle("-fx-background-color: #b91297; -fx-background-radius: 90;"));// #187bcd
+        mainSignUpButton.setOnMouseExited(e -> mainSignUpButton.setStyle("-fx-background-color:  #ff00d0; -fx-background-radius: 90;"));
+
+        backButton.setOnMouseEntered(e -> backButton.setStyle("-fx-background-color: #726859; -fx-background-radius: 15;"));
+        backButton.setOnMouseExited(e -> backButton.setStyle("-fx-background-color:   #928E85; -fx-background-radius: 15;"));
 
     }
 
@@ -110,11 +119,13 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void onLoginClicked(ActionEvent actionEvent){
+    public void onLoginClicked(ActionEvent actionEvent) throws IOException{
         String password = pw.getText();
         String name = username.getText();
         boolean athrize = true;
         boolean filled = true;
+        fillPassword.setVisible(false);
+        fillUsername.setVisible(false);
 
         if (password.isEmpty()){
             System.out.println("Fill in the password field");
@@ -131,7 +142,7 @@ public class Controller implements Initializable{
             // Finding the user with the same name and password in our DB
 
             // -------------------------------------------------------------------------------------------------------------------------------------------
-            // finding the usename and password in our DB and making sure this customer exists
+            // finding the usename and password in our DB and making sure this customer exists. if they don't, take them to signup page
             // -------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -147,25 +158,61 @@ public class Controller implements Initializable{
             if (athrize){
                 System.out.println("User with name " + name + " and password " + password + " authorized.");
                 System.out.println("Going to the shop...");
-                // change the stage
+                // Enter the products page
+                EnterProductsPage();
             }
         }
 
-        if (name.equals("parinaz")){
-            signUpScene();
-        }
+//        if (name.equals("parinaz")){
+//            signUpScene();
+//        }
+    }
+
+    public void EnterProductsPage() throws IOException{
+        Parent backParent = FXMLLoader.load(getClass().getResource("products.fxml"));
+        Scene backScene = new Scene(backParent);
+        Stage window = (Stage)loginButton.getScene().getWindow();
+        window.setScene(backScene);
+        window.show();
     }
 
     @FXML
     public void onSignUpClicked(ActionEvent actionEvent){
         System.out.println("Going to the sign up scene");
-        // change the scene
-        // then to the shop
+        signUpScene(); // change the scene then go the main product page
     }
 
-    public void onMainSignUpClicked(ActionEvent actionEvent) {
+    public void onMainSignUpClicked(ActionEvent actionEvent) throws IOException {
+        // Add the username and password to our DB
+        if (!pw.getText().equals(rpw.getText())){
+            fillPassword.setVisible(true);
+        }
+        else{
+            fillPassword.setVisible(false);
+            Document newUser = new Document("nameDB",username.getText()).append("passwordDB", pw.getText());
+            loginInfo.insertOne(newUser);
+            System.out.println("--- Insertion completed ---");
+            // Now go the products page
+            EnterProductsPage();
+        }
 
+    }
 
+    public void onBackButtonClicked(ActionEvent actionEvent){
+        loginButton.setVisible(true);
+        signUpButton.setVisible(true);
+        mainSignUpButton.setVisible(false);
+        fillUsername.setVisible(false);
+        fillPassword.setVisible(false);
+        loginLabel.setVisible(true);
+        createAccountLabel.setVisible(false);
+        rpw.setVisible(false);
+        notMember.setVisible(true);
+        blurryBack.setVisible(true);
+        blueBack.setVisible(false);
+        backButton.setVisible(false);
+        pinkLine.setVisible(false);
+        greenLine.setVisible(true);
     }
 
 //    public void getFieldValues(ActionEvent event){

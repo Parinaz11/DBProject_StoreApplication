@@ -6,11 +6,15 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -84,9 +88,6 @@ public class Controller implements Initializable{
         backButton.setVisible(true);
         greenLine.setVisible(false);
         pinkLine.setVisible(true);
-
-
-        // getting the info after setting up this scene and clicking Sign up
     }
 
     @Override
@@ -97,7 +98,7 @@ public class Controller implements Initializable{
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
 
 
-        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #40aa00; -fx-background-radius: 90;"));
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #2bea0f; -fx-background-radius: 90;"));//40aa00
         loginButton.setOnMouseExited(e -> loginButton.setStyle("-fx-background-color:  #76ff03; -fx-background-radius: 90;"));
 
         signUpButton.setOnMouseEntered(e -> signUpButton.setStyle("-fx-background-color: #0077B6; -fx-background-radius: 90;"));
@@ -118,7 +119,7 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void onLoginClicked(ActionEvent actionEvent){
+    public void onLoginClicked(ActionEvent actionEvent) throws IOException{
         String password = pw.getText();
         String name = username.getText();
         boolean athrize = true;
@@ -157,7 +158,8 @@ public class Controller implements Initializable{
             if (athrize){
                 System.out.println("User with name " + name + " and password " + password + " authorized.");
                 System.out.println("Going to the shop...");
-                // change the stage
+                // Enter the products page
+                EnterProductsPage();
             }
         }
 
@@ -166,16 +168,33 @@ public class Controller implements Initializable{
 //        }
     }
 
+    public void EnterProductsPage() throws IOException{
+        Parent backParent = FXMLLoader.load(getClass().getResource("products.fxml"));
+        Scene backScene = new Scene(backParent);
+        Stage window = (Stage)loginButton.getScene().getWindow();
+        window.setScene(backScene);
+        window.show();
+    }
+
     @FXML
     public void onSignUpClicked(ActionEvent actionEvent){
         System.out.println("Going to the sign up scene");
-        signUpScene();
-        // change the scene
-        // then to the shop
+        signUpScene(); // change the scene then go the main product page
     }
 
-    public void onMainSignUpClicked(ActionEvent actionEvent) {
+    public void onMainSignUpClicked(ActionEvent actionEvent) throws IOException {
         // Add the username and password to our DB
+        if (!pw.getText().equals(rpw.getText())){
+            fillPassword.setVisible(true);
+        }
+        else{
+            fillPassword.setVisible(false);
+            Document newUser = new Document("nameDB",username.getText()).append("passwordDB", pw.getText());
+            loginInfo.insertOne(newUser);
+            System.out.println("--- Insertion completed ---");
+            // Now go the products page
+            EnterProductsPage();
+        }
 
     }
 
