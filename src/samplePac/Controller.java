@@ -98,7 +98,7 @@ public class Controller implements Initializable{
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
 
 
-        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #2bea0f; -fx-background-radius: 90;"));//40aa00
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: #7ec016; -fx-background-radius: 90;"));//40aa00
         loginButton.setOnMouseExited(e -> loginButton.setStyle("-fx-background-color:  #76ff03; -fx-background-radius: 90;"));
 
         signUpButton.setOnMouseEntered(e -> signUpButton.setStyle("-fx-background-color: #0077B6; -fx-background-radius: 90;"));

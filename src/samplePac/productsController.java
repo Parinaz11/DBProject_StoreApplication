@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class productsController implements Initializable {
 
@@ -41,14 +42,16 @@ public class productsController implements Initializable {
 
     private ObservableList<String> allProducts;
 
+    @FXML
+    private VBox vboxID;
+
     // Initialize the controller
     @Override
     public void initialize(URL loation, ResourceBundle resources) {
         // Create categories
         ObservableList<String> categories = FXCollections.observableArrayList(
-                "All", "Digital", "Vacation", "Education", "Clothing", "Books"
+                "All", "Book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Education", "Clothing"
         );
-
         // Set categories to categoryListView
         categoryListView.setItems(categories);
 
@@ -60,12 +63,34 @@ public class productsController implements Initializable {
                 }
         );
 
-        // Initialize all products (replace with your actual product list)
+        // Initialize all products
         allProducts = FXCollections.observableArrayList(
                 "Product 1", "Product 2", "Product 3", "Digital Product A", "Digital Product B", "Digital Product C",
-                "Vacation Package X", "Vacation Package Y", "Vacation Package Z", "Course 1", "Course 2", "Book X",
-                "T-Shirt", "Jeans", "Jacket", "Book A", "Book B", "Book C"
+                "Vacation Package X", "Vacation Package Y", "Vacation Package Z", "Education Course 1", "Education Course 2", "Education Book X",
+                "Clothing T-Shirt", "Clothing Jeans", "Clothing Jacket", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C"
         );
+
+        // Set up event handling for product selection
+//        categoryListView.getSelectionModel().selectedItemProperty().addListener(
+//                (observable, oldValue, newValue) -> {
+//                    try {
+//                        // Load the FXML file for the new page
+//                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewPage.fxml"));
+//
+//                        // Create the scene
+//                        Scene scene = new Scene(fxmlLoader.load());
+//
+//                        // Create the stage
+//                        Stage stage = new Stage();
+//                        stage.setScene(scene);
+//
+//                        // Show the new stage
+//                        stage.show();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        );
 
         // Set up event handling for search
         searchTextField.textProperty().addListener(
