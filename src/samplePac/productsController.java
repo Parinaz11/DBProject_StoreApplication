@@ -1,31 +1,15 @@
 package samplePac;
 
-//
-//import javafx.fxml.Initializable;
-//
-//import java.net.URL;
-//import java.util.ResourceBundle;
-//
-//public class productsController implements Initializable {
-//
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources){
-//        System.out.println("Hello!");
-//    }
-//}
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,7 +29,7 @@ public class productsController implements Initializable {
     private ObservableList<String> allProducts;
 
     @FXML
-    private ImageView laptop1;
+    private ImageView productPic;
     @FXML
     private VBox infoBox;
 
@@ -60,12 +44,16 @@ public class productsController implements Initializable {
         );
         // Set categories to categoryListView
         categoryListView.setItems(categories);
+        productListView.setVisible(true);
+        infoBox.setVisible(false);
+        productPic.setVisible(false);
+
 
         // Set up event handling for category selection
         categoryListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     // Update product list based on the selected category
-                    laptop1.setVisible(false);
+                    productPic.setVisible(false);
                     infoBox.setVisible(false);
                     productListView.setVisible(true);
                     updateProductList(newValue);
@@ -82,7 +70,7 @@ public class productsController implements Initializable {
 
 
         ObservableList<String> productInfo = FXCollections.observableArrayList(
-                "name", "price", "brand"
+                "Name: ", "Brand: ", "Price: "
         );
         // Set categories to categoryListView
         productINFO.setItems(productInfo);
@@ -90,7 +78,17 @@ public class productsController implements Initializable {
         // Set up event handling for product selection
         productListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    laptop1.setVisible(true);
+
+                    File file = new File("src/images/bike1.jpg");
+                    if (file.exists()) {
+                        Image productImage = new Image(file.toURI().toString());
+                        productPic.setVisible(true);
+                        productPic.setImage(productImage);
+                    } else {
+                        System.out.println("Image file not found.");
+                    }
+
+                    productPic.setVisible(true);
                     infoBox.setVisible(true);
                     productListView.setVisible(false);
                 }
@@ -103,12 +101,13 @@ public class productsController implements Initializable {
                 (observable, oldValue, newValue) -> {
                     // Filter products based on the search term
                     filterProducts(newValue);
-                    laptop1.setVisible(false);
+                    productPic.setVisible(false);
                     infoBox.setVisible(false);
                     productListView.setVisible(true);
                 }
         );
     }
+
 
     // Update the product list based on the selected category
     private void updateProductList(String selectedCategory) {

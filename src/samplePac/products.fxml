@@ -8,14 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane prefHeight="778.0" prefWidth="1196.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samplePac.productsController">
    <children>
-      <VBox fx:id="infoBox" layoutX="545.0" layoutY="569.0" prefHeight="187.0" prefWidth="295.0" visible="false">
-         <children>
-            <ListView fx:id="productINFO" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </VBox>
         <TextField fx:id="searchTextField" layoutX="182.0" layoutY="30.0" prefHeight="31.0" prefWidth="905.0" promptText="Search Product..." />
         <VBox fx:id="vboxID" layoutX="106.0" layoutY="235.0" prefHeight="362.0" prefWidth="128.0" style="-fx-font-size: 17;">
             <children>
@@ -81,10 +75,11 @@
             <Image url="@../images/makeupIcon.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="laptop1" fitHeight="406.0" fitWidth="436.0" layoutX="473.0" layoutY="124.0" visible="false">
-         <image>
-            <Image url="@../images/laptop1.png" />
-         </image>
-      </ImageView>
+      <VBox fx:id="infoBox" layoutX="564.0" layoutY="505.0" prefHeight="196.0" prefWidth="295.0" style="-fx-font-size: 18;">
+         <children>
+            <ListView fx:id="productINFO" prefHeight="291.0" prefWidth="295.0" />
+         </children>
+      </VBox>
+      <ImageView fx:id="productPic" fitHeight="362.0" fitWidth="660.0" layoutX="382.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
