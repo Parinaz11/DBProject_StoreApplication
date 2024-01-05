@@ -27,12 +27,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class productsController implements Initializable {
 
     @FXML
-    private ListView<String> categoryListView;
+    private ListView<String> categoryListView, productINFO;
 
     @FXML
     private ListView<String> productListView;
@@ -43,11 +45,15 @@ public class productsController implements Initializable {
     private ObservableList<String> allProducts;
 
     @FXML
-    private VBox vboxID;
+    private ImageView laptop1;
+    @FXML
+    private VBox infoBox;
+
 
     // Initialize the controller
     @Override
     public void initialize(URL loation, ResourceBundle resources) {
+
         // Create categories
         ObservableList<String> categories = FXCollections.observableArrayList(
                 "All", "Book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Education", "Clothing"
@@ -59,7 +65,11 @@ public class productsController implements Initializable {
         categoryListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     // Update product list based on the selected category
+                    laptop1.setVisible(false);
+                    infoBox.setVisible(false);
+                    productListView.setVisible(true);
                     updateProductList(newValue);
+
                 }
         );
 
@@ -70,33 +80,32 @@ public class productsController implements Initializable {
                 "Clothing T-Shirt", "Clothing Jeans", "Clothing Jacket", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C"
         );
 
+
+        ObservableList<String> productInfo = FXCollections.observableArrayList(
+                "name", "price", "brand"
+        );
+        // Set categories to categoryListView
+        productINFO.setItems(productInfo);
+
         // Set up event handling for product selection
-//        categoryListView.getSelectionModel().selectedItemProperty().addListener(
-//                (observable, oldValue, newValue) -> {
-//                    try {
-//                        // Load the FXML file for the new page
-//                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewPage.fxml"));
-//
-//                        // Create the scene
-//                        Scene scene = new Scene(fxmlLoader.load());
-//
-//                        // Create the stage
-//                        Stage stage = new Stage();
-//                        stage.setScene(scene);
-//
-//                        // Show the new stage
-//                        stage.show();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//        );
+        productListView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    laptop1.setVisible(true);
+                    infoBox.setVisible(true);
+                    productListView.setVisible(false);
+                }
+        );
+
+
 
         // Set up event handling for search
         searchTextField.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     // Filter products based on the search term
                     filterProducts(newValue);
+                    laptop1.setVisible(false);
+                    infoBox.setVisible(false);
+                    productListView.setVisible(true);
                 }
         );
     }
