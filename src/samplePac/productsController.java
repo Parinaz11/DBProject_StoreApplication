@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
+
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -79,7 +80,7 @@ public class productsController implements Initializable {
         productListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
 
-                    File file = new File("src/images/bike1.jpg");
+                    File file = new File("src/images/bike2.jpg");
                     if (file.exists()) {
                         Image productImage = new Image(file.toURI().toString());
                         productPic.setVisible(true);

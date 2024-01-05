@@ -1,27 +1,13 @@
 package samplePac;
 
-//
-//import javafx.fxml.Initializable;
-//
-//import java.net.URL;
-//import java.util.ResourceBundle;
-//
-//public class productsController implements Initializable {
-//
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources){
-//        System.out.println("Hello!");
-//    }
-//}
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
+
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -94,10 +80,9 @@ public class productsController implements Initializable {
         productListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
 
-                    File file = new File("src/images/bike1.jpg");
+                    File file = new File("src/images/bike2.jpg");
                     if (file.exists()) {
                         Image productImage = new Image(file.toURI().toString());
-                        System.out.println("ERROR = " + productImage.isError());
                         productPic.setVisible(true);
                         productPic.setImage(productImage);
                     } else {
