@@ -69,9 +69,10 @@ public class Controller implements Initializable{
     @FXML ImageView blurryBack, blueBack;
     @FXML Line pinkLine, greenLine;
 
-    MongoClient mongoclient = new MongoClient("localhost", 27017);
-    MongoDatabase db = mongoclient.getDatabase("OnlineShop");
-    MongoCollection<Document> loginInfo = db.getCollection("loginInfo");
+    public static MongoClient mongoclient = new MongoClient(HOST, PORT);
+    public static MongoDatabase db = mongoclient.getDatabase("Store_Application");
+    public static MongoCollection<Document> loginInfo = db.getCollection("LoginInfo");
+    public static MongoCollection<Document> productCollection = db.getCollection("Products");
 
     public void signUpScene(){
         loginButton.setVisible(false);
@@ -94,6 +95,9 @@ public class Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 //      set the items of the combobox
 //        gender.setItems(list);
+
+//        setDataInDataBase(); // use when there is no data in the data base
+
         exitButton.setOnMouseEntered(e -> exitButton.setStyle("-fx-background-color: #660000; -fx-background-radius: 15;"));
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
 
@@ -188,8 +192,9 @@ public class Controller implements Initializable{
             fillPassword.setVisible(true);
         }
         else{
+
             fillPassword.setVisible(false);
-            Document newUser = new Document("nameDB",username.getText()).append("passwordDB", pw.getText());
+            Document newUser = new Document("Username",username.getText()).append("Password", pw.getText());
             loginInfo.insertOne(newUser);
             System.out.println("--- Insertion completed ---");
             // Now go the products page
@@ -215,6 +220,74 @@ public class Controller implements Initializable{
         greenLine.setVisible(true);
     }
 
+    public void setDataInDataBase(){
+        // Inserting a single record by creating collection and document. (Commented, since we already did so.)
+
+//        MongoCollection<Document> collection = db.getCollection("Products");
+
+//        MongoCollection<Document> collection = db.getCollection("LoginInfo"); // for fake user info
+//
+//
+        try {
+            // Read all lines from the file into a List
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Mobile\\mobile.txt")); // Inserting Cellphones
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Car\\car.txt")); // Inserting Cars
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Laptop\\laptop.txt")); // Inserting Laptops
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\TV\\tv.txt")); // Inserting TV
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Book\\book.txt")); // Inserting Books
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Bike\\bike.txt")); // Inserting Bikes
+            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Makeup\\makeup.txt")); // Inserting Makeup
+
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\UserInfo.txt")); // Inserting username and passwords
+            // Process each line
+            for (String line : lines) {
+                // Assuming each line has the format "name,price,brand,category"
+                String[] parts = line.split(",");
+
+                // condition for product data
+                if (parts.length == 4) {
+                    String name = parts[0];
+                    String price = parts[1];
+                    String brand = parts[2];
+                    String cat = parts[3];
+                    Document p = new Document("Name", name)
+                            .append("Price", price)
+                            .append("Brand", brand).append("Category", cat);
+//                        org.bson.Document doc  = (org.bson.Document) new org.bson.Document("Name:", name);
+
+                    productCollection.insertOne(p);
+                    System.out.println("--- Insertion completed ---");
+                    System.out.println("Name: " + name + ", Price: " + price + ", Brand: " + brand);
+
+                }
+
+                // condition for user data
+//                if (parts.length == 2) {
+//                    String name = parts[0];
+//                    String password = parts[1];
+//                    Document book = new Document("Username", name)
+//                            .append("Password", password);
+////                        org.bson.Document doc  = (org.bson.Document) new org.bson.Document("Name:", name);
+//
+//                    loginInfo.insertOne(book);
+//                    System.out.println("--- Insertion completed ---");
+//
+//                    // Do something with the data (e.g., print it)
+//                    System.out.println("Username: " + name + ", Password: " + password);
+//
+//                }
+
+                else {
+                    System.out.println("Invalid line format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            // Handle file reading errors
+            e.printStackTrace();
+        }
+
+    }
+
 //    public void getFieldValues(ActionEvent event){
 //
 //
@@ -233,39 +306,7 @@ public class Controller implements Initializable{
 //                System.out.println(dbsCursor.next());
 //            }
 //
-////        // Inserting a single record by creating collection and document.
-//            MongoCollection<Document> collection = db.getCollection("collection1");
-//            try {
-//                // Read all lines from the file into a List
-//                List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\books.txt"));
 //
-//                // Process each line
-//                for (String line : lines) {
-//                    // Assuming each line has the format "name,price,author"
-//                    String[] parts = line.split(",");
-//                    if (parts.length == 3) {
-//                        String name = parts[0];
-//                        double price = Double.parseDouble(parts[1]);
-//                        String author = parts[2];
-//                        Document book = new Document("name", name)
-//                                .append("price", price)
-//                                .append("author", author);
-////                        org.bson.Document doc  = (org.bson.Document) new org.bson.Document("Name:", name);
-//
-//                        collection.insertOne(book);
-//                        System.out.println("--- Insertion completed ---");
-//
-//                        // Do something with the data (e.g., print it)
-//                        System.out.println("Name: " + name + ", Price: " + price + ", Author: " + author);
-//
-//                    } else {
-//                        System.out.println("Invalid line format: " + line);
-//                    }
-//                }
-//            } catch (IOException e) {
-//                // Handle file reading errors
-//                e.printStackTrace();
-//            }
 //
 //            // the second document in collection1
 //            // Retrieve the second document from the collection
