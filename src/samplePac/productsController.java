@@ -4,10 +4,16 @@ import com.mongodb.client.MongoCursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
+import javafx.stage.Stage;
 import org.bson.Document;
 
 import static samplePac.Controller.productCollection;
@@ -39,6 +46,8 @@ public class productsController implements Initializable {
     private ImageView productPic;
     @FXML
     private VBox infoBox;
+    @FXML
+    private Button signOutButton, productsButton;
 
 
     // Initialize the controller
@@ -54,6 +63,7 @@ public class productsController implements Initializable {
         productListView.setVisible(true);
         infoBox.setVisible(false);
         productPic.setVisible(false);
+        productsButton.setVisible(false);
 
 
         // Set up event handling for category selection
@@ -62,6 +72,7 @@ public class productsController implements Initializable {
                     // Update product list based on the selected category
                     productPic.setVisible(false);
                     infoBox.setVisible(false);
+                    productsButton.setVisible(false);
                     productListView.setVisible(true);
                     updateProductList(newValue);
 
@@ -155,38 +166,12 @@ public class productsController implements Initializable {
                                 productPic.setVisible(true);
                                 infoBox.setVisible(true);
                                 productListView.setVisible(false);
+                                productsButton.setVisible(true);
                             }
                         }
                     } finally {
                         cursor2.close();
                     }
-//
-//
-//
-//                    // Find the selected document based on its name
-//                    Document selectedDocument = allProducts.stream()
-//                            .filter(document -> document.getString("Name").equals(newValue))
-//                            .findFirst()
-//                            .orElse(null);
-//
-//                    if (selectedDocument != null) {
-//                        // Use the selected document's fields as needed
-//                        String imageID = selectedDocument.getString("imageID");
-//                        File file = new File("src/productImages/" + imageID + ".jpg");
-//
-//                        if (file.exists()) {
-//                            Image productImage = new Image(file.toURI().toString());
-//                            productPic.setVisible(true);
-//                            productPic.setImage(productImage);
-//                        } else {
-//                            System.out.println("Image file not found for document: " + selectedDocument.getString("Name"));
-//                        }
-//                    }
-//
-//                    // Additional handling for displaying document info
-//                    productPic.setVisible(true);
-//                    infoBox.setVisible(true);
-//                    productListView.setVisible(false);
 
                 }
         );
@@ -199,8 +184,27 @@ public class productsController implements Initializable {
                     productPic.setVisible(false);
                     infoBox.setVisible(false);
                     productListView.setVisible(true);
+                    productsButton.setVisible(false);
                 }
         );
+    }
+
+    @FXML
+    public void onSignOutButtonClicked(javafx.event.ActionEvent actionEvent) throws IOException {
+        // Go to the login page is the client wanted to sign out
+        Parent backParent = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
+        Scene backScene = new Scene(backParent);
+        Stage window = (Stage)signOutButton.getScene().getWindow();
+        window.setScene(backScene);
+        window.show();
+    }
+
+    @FXML
+    public void onProductsButtonClicked(javafx.event.ActionEvent actionEvent){
+        productListView.setVisible(true);
+        infoBox.setVisible(false);
+        productPic.setVisible(false);
+        productsButton.setVisible(false);
     }
 
 
@@ -235,6 +239,7 @@ public class productsController implements Initializable {
 //            ObservableList<String> filteredProducts = allProducts.filtered(product -> product.startsWith(selectedCategory));
             productListView.setItems(filteredProducts);
         }
+        productsButton.setVisible(false);
     }
 
     // Filter products based on the search term
@@ -242,5 +247,6 @@ public class productsController implements Initializable {
         ObservableList<String> filteredProducts = allProducts.filtered(product -> product.toLowerCase().contains(searchTerm.toLowerCase()));
         productListView.setItems(filteredProducts);
     }
+
 }
 
