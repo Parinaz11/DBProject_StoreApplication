@@ -1,5 +1,6 @@
 package samplePac;
 
+import com.mongodb.Cursor;
 import com.mongodb.client.MongoCursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,14 +20,13 @@ import java.util.ResourceBundle;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
 import javafx.stage.Stage;
 import org.bson.Document;
 
-import static samplePac.Controller.productCollection;
+import static samplePac.Controller.*;
 
 public class productsController implements Initializable {
 
@@ -47,16 +46,25 @@ public class productsController implements Initializable {
     @FXML
     private VBox infoBox;
     @FXML
-    private Button signOutButton, productsButton;
+    private Button signOutButton, productsButton, addToCartButton;
 
 
     // Initialize the controller
     @Override
     public void initialize(URL loation, ResourceBundle resources) {
 
+        addToCartButton.setOnMouseEntered(e -> addToCartButton.setStyle("-fx-background-color: #11555a; -fx-background-radius: 15;"));
+        addToCartButton.setOnMouseExited(e -> addToCartButton.setStyle("-fx-background-color:  #849e93; -fx-background-radius: 15;"));
+
+        signOutButton.setOnMouseEntered(e -> signOutButton.setStyle("-fx-background-color: #660000; -fx-background-radius: 15;"));
+        signOutButton.setOnMouseExited(e -> signOutButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
+
+        productsButton.setOnMouseEntered(e -> productsButton.setStyle("-fx-background-color: #5e4930; -fx-background-radius: 15;"));
+        productsButton.setOnMouseExited(e -> productsButton.setStyle("-fx-background-color:  #8f6f46; -fx-background-radius: 15;"));
+
         // Create categories
         ObservableList<String> categories = FXCollections.observableArrayList(
-                "All", "book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Clothing"
+                "All", "Book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Clothing"
         );
         // Set categories to categoryListView
         categoryListView.setItems(categories);
@@ -64,7 +72,7 @@ public class productsController implements Initializable {
         infoBox.setVisible(false);
         productPic.setVisible(false);
         productsButton.setVisible(false);
-
+        addToCartButton.setVisible(false);
 
         // Set up event handling for category selection
         categoryListView.getSelectionModel().selectedItemProperty().addListener(
@@ -74,8 +82,8 @@ public class productsController implements Initializable {
                     infoBox.setVisible(false);
                     productsButton.setVisible(false);
                     productListView.setVisible(true);
+                    addToCartButton.setVisible(false);
                     updateProductList(newValue);
-
                 }
         );
 
@@ -102,24 +110,13 @@ public class productsController implements Initializable {
             cursor.close();
         }
 
-//        allProducts = FXCollections.observableArrayList(
-//                "Product 1", "Product 2", "Product 3", "Digital Product A", "Digital Product B", "Digital Product C",
-//                "Vacation Package X", "Vacation Package Y", "Vacation Package Z", "Education Course 1", "Education Course 2", "Education Book X",
-//                "Clothing T-Shirt", "Clothing Jeans", "Clothing Jacket", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C"
-//        );
-
-
         // Set up event handling for product selection
         productListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
 
-
-
-
 //                    ObservableList<String> filteredProducts = allProducts.filtered(product -> product.equals(newValue));
 //
                     MongoCursor<Document> cursor2 = productCollection.find().iterator();
-                    ObservableList<String> filteredProducts = FXCollections.observableArrayList();
                     try {
                         while (cursor2.hasNext()) {
                             Document document = cursor2.next();
@@ -135,7 +132,6 @@ public class productsController implements Initializable {
                             if (productName.equals(newValue)){
                                 // show the image of that product
 
-//                                String address  = "src/productImages/makeupppp14.jpg";
                                 String address = "src/" + document.getString("Category") + "/photos/" + document.getString("ImageID");
                                 File file = new File(address);// "src/book/photos/book1.jpg"
                                 if (file.exists()) {
@@ -151,22 +147,25 @@ public class productsController implements Initializable {
                                 if (document.getString("Category").equals("book")){
                                     ObservableList<String> productInfo = FXCollections.observableArrayList(
                                             "Name: " + document.getString("Name"), "Author: " + document.getString("Author"),
-                                            "Price: " + document.getString("Price") + "$");
+                                            "Price: " + document.getString("Price") + "$", "Item Count: " + document.getInteger("itemsLeft"),
+                                            "Product ID: " + document.getObjectId("_id"));
                                     // Set categories to categoryListView
                                     productINFO.setItems(productInfo);
                                 }
                                 else{
                                     ObservableList<String> productInfo = FXCollections.observableArrayList(
                                             "Name: " + document.getString("Name"), "Brand: " + document.getString("Brand"),
-                                            "Price: " + document.getString("Price") + "$");
+                                            "Price: " + document.getString("Price") + "$", "Item Count: " + document.getInteger("itemsLeft"),
+                                            "Product ID: " + document.getObjectId("_id"));
                                     // Set categories to categoryListView
                                     productINFO.setItems(productInfo);
                                 }
-
+                                productINFO.setVisible(true);
                                 productPic.setVisible(true);
                                 infoBox.setVisible(true);
                                 productListView.setVisible(false);
                                 productsButton.setVisible(true);
+                                addToCartButton.setVisible(true);
                             }
                         }
                     } finally {
@@ -185,6 +184,7 @@ public class productsController implements Initializable {
                     infoBox.setVisible(false);
                     productListView.setVisible(true);
                     productsButton.setVisible(false);
+                    addToCartButton.setVisible(false);
                 }
         );
     }
@@ -205,13 +205,20 @@ public class productsController implements Initializable {
         infoBox.setVisible(false);
         productPic.setVisible(false);
         productsButton.setVisible(false);
+        addToCartButton.setVisible(false);
     }
 
 
     // Update the product list based on the selected category
     private void updateProductList(String selectedCategory) {
+
         if ("All".equals(selectedCategory)) {
             productListView.setItems(allProducts);
+            productListView.setVisible(true);
+            productPic.setVisible(false);
+            productINFO.setVisible(false);
+            infoBox.setVisible(false);
+            addToCartButton.setVisible(false);
         } else {
             // Filter products based on the selected category
 
@@ -236,7 +243,6 @@ public class productsController implements Initializable {
             } finally {
                 cursor.close();
             }
-//            ObservableList<String> filteredProducts = allProducts.filtered(product -> product.startsWith(selectedCategory));
             productListView.setItems(filteredProducts);
         }
         productsButton.setVisible(false);
@@ -248,5 +254,22 @@ public class productsController implements Initializable {
         productListView.setItems(filteredProducts);
     }
 
+    public void onAddtoCartButtonClicked(javafx.event.ActionEvent actionEvent) {
+
+        ObservableList<String> items = productINFO.getItems();
+        if (!items.isEmpty()) {
+            String prodID = items.get(4).replace("Product ID: ", "");
+
+            // Enter the product ID into the db for userlogin info
+            Document query = new Document("Username", userNamE);
+            Document update = new Document("$push", new Document("boughtProducts", prodID));
+            loginInfo.updateOne(query, update);
+            System.out.println("Product added to the user's list.");
+
+        } else {
+            System.out.println("The list is empty.");
+        }
+
+    }
 }
 
