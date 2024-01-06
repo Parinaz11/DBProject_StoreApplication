@@ -96,7 +96,7 @@ public class Controller implements Initializable{
 //      set the items of the combobox
 //        gender.setItems(list);
 
-//        setDataInDataBase(); // use when there is no data in the data base
+//        setDataInDataBase(); // use when there is no data in the data base!!!
 
         exitButton.setOnMouseEntered(e -> exitButton.setStyle("-fx-background-color: #660000; -fx-background-radius: 15;"));
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #8B0000; -fx-background-radius: 15;"));
@@ -126,50 +126,48 @@ public class Controller implements Initializable{
     public void onLoginClicked(ActionEvent actionEvent) throws IOException{
         String password = pw.getText();
         String name = username.getText();
-        boolean athrize = true;
+        boolean athrize = false;
         boolean filled = true;
         fillPassword.setVisible(false);
         fillUsername.setVisible(false);
 
         if (password.isEmpty()){
             System.out.println("Fill in the password field");
+            fillPassword.setText("Fill in the Password");
             fillPassword.setVisible(true);
             filled = false;
         }
         if (name.isEmpty()){
             System.out.println("Fill in the name field");
+            fillUsername.setText("Fill in the Username");
             fillUsername.setVisible(true);
             filled = false;
         }
         if (filled){
 
-            // Finding the user with the same name and password in our DB
-
-            // -------------------------------------------------------------------------------------------------------------------------------------------
-            // finding the usename and password in our DB and making sure this customer exists. if they don't, take them to signup page
-            // -------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-//                Document doc = loginInfo.find(Filters.and(Filters.eq("nameDB", username), Filters.eq("passwordDB", password))).first();
-//                if (doc == null){
-//                    System.out.println("You are not registered. Please sign up.");
-//                    athrize = false;
-//                }
-
-//            mongoclient.close();
-
+            MongoCursor<Document> cursor2 = loginInfo.find().iterator();
+            try {
+                while (cursor2.hasNext()) {
+                    Document document = cursor2.next();
+                    if (document.getString("Username").equals(name)
+                            && document.getString("Password").equals(password)) athrize = true;
+                }
+            }
+            finally {
+                cursor2.close();
+            }
             if (athrize){
                 System.out.println("User with name " + name + " and password " + password + " authorized.");
                 System.out.println("Going to the shop...");
                 // Enter the products page
                 EnterProductsPage();
             }
+            else{
+                // Show the label that the username already exists
+                fillUsername.setText("No such account exists.");
+                fillUsername.setVisible(true);
+            }
         }
-
-//        if (name.equals("parinaz")){
-//            signUpScene();
-//        }
     }
 
     public void EnterProductsPage() throws IOException{
@@ -188,11 +186,38 @@ public class Controller implements Initializable{
 
     public void onMainSignUpClicked(ActionEvent actionEvent) throws IOException {
         // Add the username and password to our DB
-        if (!pw.getText().equals(rpw.getText())){
+
+        // checking to see if the username is already taken by another user
+        boolean taken = false;
+        MongoCursor<Document> cursor2 = loginInfo.find().iterator();
+        try {
+            while (cursor2.hasNext()) {
+                Document document = cursor2.next();
+                if (document.getString("Username").equals(username.getText())) taken = true;
+            }
+        }
+        finally {
+            cursor2.close();
+        }
+
+        if (username.getText().isEmpty() && pw.getText().isEmpty()){
+            fillPassword.setVisible(true);
+            fillUsername.setText("Fill in the Username");
+            fillUsername.setVisible(true);
+        }
+        else if (!pw.getText().equals(rpw.getText()) || pw.getText().isEmpty()){
             fillPassword.setVisible(true);
         }
+        else if (username.getText().isEmpty()){
+            fillUsername.setText("Fill in the Username");
+            fillUsername.setVisible(true);
+        }
+        else if (taken){
+            fillUsername.setText("Account already exists, choose another name");
+            fillUsername.setVisible(true);
+            fillPassword.setVisible(false);
+        }
         else{
-
             fillPassword.setVisible(false);
             Document newUser = new Document("Username",username.getText()).append("Password", pw.getText());
             loginInfo.insertOne(newUser);
@@ -200,6 +225,7 @@ public class Controller implements Initializable{
             // Now go the products page
             EnterProductsPage();
         }
+
 
     }
 
@@ -235,11 +261,13 @@ public class Controller implements Initializable{
 //            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Laptop\\laptop.txt")); // Inserting Laptops
 //            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\TV\\tv.txt")); // Inserting TV
 //            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Book\\book.txt")); // Inserting Books
-//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Bike\\bike.txt")); // Inserting Bikes
-            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Makeup\\makeup.txt")); // Inserting Makeup
+            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Bike\\bike.txt")); // Inserting Bikes
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Makeup\\makeup.txt")); // Inserting Makeup
+//            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\Clothing\\clothing.txt")); // Inserting Makeup
 
 //            List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\parin\\Desktop\\Data\\UserInfo.txt")); // Inserting username and passwords
             // Process each line
+            int countImage = 1;
             for (String line : lines) {
                 // Assuming each line has the format "name,price,brand,category"
                 String[] parts = line.split(",");
@@ -250,9 +278,11 @@ public class Controller implements Initializable{
                     String price = parts[1];
                     String brand = parts[2];
                     String cat = parts[3];
+                    String imageID = parts[3].toLowerCase() + countImage + ".jpg";
+                    countImage++;
                     Document p = new Document("Name", name)
                             .append("Price", price)
-                            .append("Brand", brand).append("Category", cat);
+                            .append("Brand", brand).append("Category", cat).append("ImageID", imageID);
 //                        org.bson.Document doc  = (org.bson.Document) new org.bson.Document("Name:", name);
 
                     productCollection.insertOne(p);

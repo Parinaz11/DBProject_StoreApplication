@@ -1,0 +1,15 @@
+Tank Top,7,H&M,Clothing
+Blazer,149,Arket,Clothing
+Woven Bag,115,Anthropologie,Clothing
+Earrings,55,Anthropologie,Clothing
+Tweed Jacket,80,Mango,Clothing
+Quilted Jacket,224,Frankie Shop,Clothing
+550 Trainers,120,New Balance,Clothing
+Cashmere Cardigan,298,Reformation,Clothing
+Straight-Leg Jeans,260,Agolde,Clothing
+Camel Coat,140,Mango,Clothing
+Cargo Trousers,187,Frankie Shop,Clothing
+Leather Jacket,449,Whistles,Clothing
+Rib-Knit Dress,33,H&M,Clothing
+Fisherman Sandals,920,The Row,Clothing
+Puzzle Bag,2400,Loewe,Clothing

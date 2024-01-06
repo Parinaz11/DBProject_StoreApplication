@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
@@ -46,7 +47,7 @@ public class productsController implements Initializable {
 
         // Create categories
         ObservableList<String> categories = FXCollections.observableArrayList(
-                "All", "Book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Education", "Clothing"
+                "All", "book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Clothing"
         );
         // Set categories to categoryListView
         categoryListView.setItems(categories);
@@ -77,7 +78,13 @@ public class productsController implements Initializable {
             while (cursor.hasNext()) {
                 Document document = cursor.next();
                 // Get the "name" field from the document and add it to the ObservableList
-                String productName = document.getString("Name");
+                String productName;
+                if (document.getString("Category").equals("book")){
+                    productName = document.getString("Name") + "\t\t" + document.getString("Author");
+                }
+                else{
+                    productName = document.getString("Name") + "\t\t" + document.getString("Brand");
+                }
                 allProducts.add(productName);
             }
         } finally {
@@ -90,12 +97,6 @@ public class productsController implements Initializable {
 //                "Clothing T-Shirt", "Clothing Jeans", "Clothing Jacket", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C", "Books Book A", "Books Book B", "Books Book C"
 //        );
 
-
-        ObservableList<String> productInfo = FXCollections.observableArrayList(
-                "Name: ", "Brand: ", "Price: "
-        );
-        // Set categories to categoryListView
-        productINFO.setItems(productInfo);
 
         // Set up event handling for product selection
         productListView.getSelectionModel().selectedItemProperty().addListener(
@@ -112,10 +113,20 @@ public class productsController implements Initializable {
                         while (cursor2.hasNext()) {
                             Document document = cursor2.next();
                             // Get the "name" field from the document and add it to the ObservableList
-                            String productName = document.getString("Name");
+                            String productName;
+                            if (document.getString("Category").equals("book")){
+                                productName = document.getString("Name") + "\t\t" + document.getString("Author");
+                            }
+                            else{
+                                productName = document.getString("Name") + "\t\t" + document.getString("Brand");
+                            }
+
                             if (productName.equals(newValue)){
                                 // show the image of that product
-                                File file = new File("src/productImages/bike2.jpg");
+
+//                                String address  = "src/productImages/makeupppp14.jpg";
+                                String address = "src/" + document.getString("Category") + "/photos/" + document.getString("ImageID");
+                                File file = new File(address);// "src/book/photos/book1.jpg"
                                 if (file.exists()) {
                                     Image productImage = new Image(file.toURI().toString());
                                     productPic.setVisible(true);
@@ -123,6 +134,24 @@ public class productsController implements Initializable {
                                 } else {
                                     System.out.println("Image file not found.");
                                 }
+
+                                // Set product info
+
+                                if (document.getString("Category").equals("book")){
+                                    ObservableList<String> productInfo = FXCollections.observableArrayList(
+                                            "Name: " + document.getString("Name"), "Author: " + document.getString("Author"),
+                                            "Price: " + document.getString("Price") + "$");
+                                    // Set categories to categoryListView
+                                    productINFO.setItems(productInfo);
+                                }
+                                else{
+                                    ObservableList<String> productInfo = FXCollections.observableArrayList(
+                                            "Name: " + document.getString("Name"), "Brand: " + document.getString("Brand"),
+                                            "Price: " + document.getString("Price") + "$");
+                                    // Set categories to categoryListView
+                                    productINFO.setItems(productInfo);
+                                }
+
                                 productPic.setVisible(true);
                                 infoBox.setVisible(true);
                                 productListView.setVisible(false);
@@ -190,7 +219,16 @@ public class productsController implements Initializable {
                     Document document = cursor.next();
                     // Get the "name" field from the document and add it to the ObservableList
                     String productCat = document.getString("Category");
-                    if (productCat.equals(selectedCategory)) filteredProducts.add(document.getString("Name"));
+                    if (productCat.toLowerCase().equals(selectedCategory.toLowerCase())){
+
+                        if (document.getString("Category").equals("book")){
+                            filteredProducts.add(document.getString("Name") + "\t\t" + document.getString("Author"));
+                        }
+                        else{
+                            filteredProducts.add(document.getString("Name") + "\t\t" + document.getString("Brand"));
+                        }
+
+                    }
                 }
             } finally {
                 cursor.close();

@@ -1,0 +1,15 @@
+MacBook pro 14" 2023,1600,Apple,Laptop
+Swift X 2023,740,Acer,Laptop
+ROG GX800VH,6000,Asus,Laptop
+Legion 5 pro,1300,Lenovo,Laptop
+Cyborg 15,1679,MSI,Laptop
+MacBook Air M2,1099,Apple,Laptop
+XPS 13,1194,Dell,Laptop
+Blade 14,2300,Razer,Laptop
+ZenBook 14 OLED,1299,Asus,Laptop
+ThinkPad Z13,772,Lenovo,Laptop
+Surface Pro 9,2226,Microsoft,Laptop
+Spectre x360 13.5,900,HP,Laptop
+Yoga 9i Gen 8,2000,Lenovo,Laptop
+Envy 16,2399,HP,Laptop
+Nitro 5,799,Acer,Laptop

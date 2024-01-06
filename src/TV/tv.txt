@@ -1,0 +1,8 @@
+Mi 5A,493,Xiaomi,TV
+Wondertainment,740,Samsung,TV
+Bravia,1089,Sony,TV
+Bezel-Less S Series,145,TCL,TV
+Y 4K Ultra,325,Oneplus,TV
+G3 OLED Evo,3299,LG,TV
+S95C OLED,3800,Samsung,TV
+A95L QD-OLED,3500,Sony,TV

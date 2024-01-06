@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="778.0" prefWidth="1196.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samplePac.productsController">
+<AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="778.0" prefWidth="1196.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samplePac.productsController">
    <children>
         <TextField fx:id="searchTextField" layoutX="182.0" layoutY="30.0" prefHeight="31.0" prefWidth="905.0" promptText="Search Product..." />
-        <VBox fx:id="vboxID" layoutX="106.0" layoutY="235.0" prefHeight="362.0" prefWidth="128.0" style="-fx-font-size: 17;">
+        <VBox fx:id="vboxID" layoutX="106.0" layoutY="250.0" prefHeight="332.0" prefWidth="128.0" style="-fx-font-size: 17;">
             <children>
                 <ListView fx:id="categoryListView" prefHeight="652.0" prefWidth="128.0">
                <VBox.margin>
@@ -30,47 +30,42 @@
             <Image url="@../images/searchicon2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="60.0" layoutX="17.0" layoutY="248.0">
+      <ImageView fitHeight="39.0" fitWidth="60.0" layoutX="17.0" layoutY="288.0">
          <image>
             <Image url="@../images/caricon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="33.0" layoutX="30.0" layoutY="104.0">
+      <ImageView fitHeight="39.0" fitWidth="33.0" layoutX="30.0" layoutY="144.0">
          <image>
             <Image url="@../images/bookicon2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="53.0" fitWidth="31.0" layoutX="32.0" layoutY="389.0">
+      <ImageView fitHeight="53.0" fitWidth="31.0" layoutX="32.0" layoutY="429.0">
          <image>
             <Image url="@../images/cellphoneicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="46.0" fitWidth="53.0" layoutX="20.0" layoutY="687.0">
+      <ImageView fitHeight="46.0" fitWidth="53.0" layoutX="21.0" layoutY="643.0">
          <image>
             <Image url="@../images/clothingicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="20.0" layoutY="607.0">
-         <image>
-            <Image url="@../images/educationicon.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="53.0" layoutX="21.0" layoutY="317.0">
+      <ImageView fitHeight="39.0" fitWidth="53.0" layoutX="21.0" layoutY="357.0">
          <image>
             <Image url="@../images/laptopicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="67.0" layoutX="14.0" layoutY="466.0">
+      <ImageView fitHeight="39.0" fitWidth="67.0" layoutX="14.0" layoutY="506.0">
          <image>
             <Image url="@../images/motorcycleiron.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="53.0" layoutX="21.0" layoutY="539.0">
+      <ImageView fitHeight="39.0" fitWidth="53.0" layoutX="21.0" layoutY="579.0">
          <image>
             <Image url="@../images/tvicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="26.0" layoutY="170.0">
+      <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="26.0" layoutY="210.0">
          <image>
             <Image url="@../images/makeupIcon.png" />
          </image>
@@ -80,6 +75,6 @@
             <ListView fx:id="productINFO" prefHeight="291.0" prefWidth="295.0" />
          </children>
       </VBox>
-      <ImageView fx:id="productPic" fitHeight="362.0" fitWidth="660.0" layoutX="382.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="productPic" fitHeight="362.0" fitWidth="660.0" layoutX="382.0" layoutY="120.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
