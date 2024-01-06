@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+
+// Github project link: 'https://github.com/Parinaz11/DBProject_StoreApplication.git/'
+
+
+
 public class Main extends Application {
     @Override
     //  create a window

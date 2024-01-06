@@ -191,7 +191,6 @@ public class productsController implements Initializable {
                 }
         );
 
-
         // Set up event handling for search
         searchTextField.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
