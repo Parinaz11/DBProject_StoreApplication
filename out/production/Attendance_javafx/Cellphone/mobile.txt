@@ -1,0 +1,15 @@
+Galaxy S23 Ultra,1200,Samsung,Cellphone
+iPhone 15 Pro Max,1200,Apple,Cellphone
+Galaxy A14,132,Samsung,Cellphone
+Galaxy Z Fold 5,1800,Samsung,Cellphone
+13T pro,595,Xiaomi,Cellphone
+Pixel 8 Pro,999,Google,Cellphone
+Open,1599,Oneplus,Cellphone
+Galaxy A54,430,Samsung,Cellphone
+Find X6 Pro,862,Oppo,Cellphone
+RedMagic 9 Pro,649,Nubia,Cellphone
+ROG Phone 7,1049,Asus,Cellphone
+Xperia 5 V,820,Sony,Cellphone
+Magic 5 Pro,999,Honor,Cellphone
+F5 Pro,499,Poco,Cellphone
+12 Pro,842,IQOO,Cellphone

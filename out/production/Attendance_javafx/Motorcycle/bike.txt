@@ -1,0 +1,15 @@
+Ego+ RS,25600,Energica,Motorcycle
+Hayabusa,18599,Suzuki,Motorcycle
+V4 SV,44000,Norton,Motorcycle
+Agusta Rush,38000,MV,Motorcycle
+M1000RR,32495,BMW,Motorcycle
+180s,3146,benelli,Motorcycle
+XMAX 250,10799,Yamaha,Motorcycle
+Street Glide,21999,Harley-Davidson,Motorcycle
+CRF450L,9999,Honda,Motorcycle
+Ninja ZX-6R,12399,Kawasaki,Motorcycle
+Chieftain,32495,Indian,Motorcycle
+YZF-R7,9199,Yamaha,Motorcycle
+Ninja H2R,49999,Kawasaki,Motorcycle
+987 C3 4V,105000,Vyrus,Motorcycle
+Sheene,172000,Icon,Motorcycle

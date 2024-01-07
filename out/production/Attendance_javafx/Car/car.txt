@@ -1,0 +1,15 @@
+Challenger 2023,46625,Dodge,Car
+Mustang 2023,43545,Ford,Car
+Sequoia 2023,80095,Toyota,Car
+P1,1.65M,McLaren,Car
+G63 2023,265150,Mercedes-Benz,Car
+CX-5,36200,Mazda,Car
+Civic,39220,Honda,Car
+Model 3,42990,Tesla,Car
+Sierra,39695,GMC,Car
+Valour,1.5M,Aston Martin,Car
+Elva,1.7M,McLaren,Car
+21C,1.7M,Czinger,Car
+Gamera,1.7M,Koenigsegg,Car
+Bacalar,1.9M,Bentley,Car
+Countach,2.6M,Lamborghini,Car
