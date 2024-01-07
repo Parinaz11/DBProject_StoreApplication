@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.io.File;
@@ -47,6 +48,8 @@ public class productsController implements Initializable {
     private VBox infoBox;
     @FXML
     private Button signOutButton, productsButton, addToCartButton;
+    @FXML
+    private Label notAvailableLabel;
 
 
     // Initialize the controller
@@ -73,6 +76,7 @@ public class productsController implements Initializable {
         productPic.setVisible(false);
         productsButton.setVisible(false);
         addToCartButton.setVisible(false);
+        notAvailableLabel.setVisible(false);
 
         // Set up event handling for category selection
         categoryListView.getSelectionModel().selectedItemProperty().addListener(
@@ -83,6 +87,7 @@ public class productsController implements Initializable {
                     productsButton.setVisible(false);
                     productListView.setVisible(true);
                     addToCartButton.setVisible(false);
+                    notAvailableLabel.setVisible(false);
                     updateProductList(newValue);
                 }
         );
@@ -166,6 +171,7 @@ public class productsController implements Initializable {
                                 productListView.setVisible(false);
                                 productsButton.setVisible(true);
                                 addToCartButton.setVisible(true);
+                                notAvailableLabel.setVisible(false);
                             }
                         }
                     } finally {
@@ -185,6 +191,7 @@ public class productsController implements Initializable {
                     productListView.setVisible(true);
                     productsButton.setVisible(false);
                     addToCartButton.setVisible(false);
+                    notAvailableLabel.setVisible(false);
                 }
         );
     }
@@ -206,6 +213,7 @@ public class productsController implements Initializable {
         productPic.setVisible(false);
         productsButton.setVisible(false);
         addToCartButton.setVisible(false);
+        notAvailableLabel.setVisible(false);
     }
 
 
@@ -219,6 +227,7 @@ public class productsController implements Initializable {
             productINFO.setVisible(false);
             infoBox.setVisible(false);
             addToCartButton.setVisible(false);
+            notAvailableLabel.setVisible(false);
         } else {
             // Filter products based on the selected category
 
@@ -258,14 +267,28 @@ public class productsController implements Initializable {
 
         ObservableList<String> items = productINFO.getItems();
         if (!items.isEmpty()) {
-            String prodID = items.get(4).replace("Product ID: ", "");
 
-            // Enter the product ID into the db for userlogin info
-            Document query = new Document("Username", userNamE);
-            Document update = new Document("$push", new Document("boughtProducts", prodID));
-            loginInfo.updateOne(query, update);
-            System.out.println("Product added to the user's list.");
+            // Checking for the item existing (count not being 0)
+            if (items.get(3).equals("Item Count: 0")){
 
+                System.out.println("Count is zero.");
+                notAvailableLabel.setVisible(true);
+            }
+            else{
+                String prodID = items.get(4).replace("Product ID: ", "");
+
+                // Enter the product ID into the db for userlogin info
+                Document query = new Document("Username", userNamE);
+                Document update = new Document("$push", new Document("boughtProducts", prodID));
+                loginInfo.updateOne(query, update);
+                System.out.println("Product added to the user's list.");
+
+                // Update the item count
+//                Document query2 = new Document("_id", prodID); // Modify based on your actual identifier
+//                Document update2 = new Document("$set", new Document("Item Count", Integer.parseInt(items.get(3).replace("Item Count: ", "")) - 1));
+//
+//                productCollection.updateOne(query2, update2);
+            }
         } else {
             System.out.println("The list is empty.");
         }
