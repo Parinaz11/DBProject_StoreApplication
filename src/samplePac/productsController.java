@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 
 import javafx.stage.Stage;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import static samplePac.Controller.*;
 
@@ -275,7 +276,7 @@ public class productsController implements Initializable {
                 notAvailableLabel.setVisible(true);
             }
             else{
-                String prodID = items.get(4).replace("Product ID: ", "");
+                ObjectId prodID = new ObjectId(items.get(4).replace("Product ID: ", ""));
 
                 // Enter the product ID into the db for userlogin info
                 Document query = new Document("Username", userNamE);
@@ -284,10 +285,40 @@ public class productsController implements Initializable {
                 System.out.println("Product added to the user's list.");
 
                 // Update the item count
-//                Document query2 = new Document("_id", prodID); // Modify based on your actual identifier
-//                Document update2 = new Document("$set", new Document("Item Count", Integer.parseInt(items.get(3).replace("Item Count: ", "")) - 1));
-//
-//                productCollection.updateOne(query2, update2);
+                // Finding a product with that ID
+                MongoCursor<Document> cursor = productCollection.find().iterator();
+                try {
+                    while (cursor.hasNext()) {
+                        Document document = cursor.next();
+                        // Get the "name" field from the document and add it to the ObservableList
+                        ObjectId productID = document.getObjectId("_id");
+                        if (prodID.equals(productID)){
+                            Document update2 = new Document("$set", new Document("itemsLeft", Integer.parseInt(items.get(3).replace("Item Count: ", "")) - 1));
+                            productCollection.updateOne(document, update2);
+
+                            // Showing the changes
+                            if (document.getString("Category").equals("book")){
+                                ObservableList<String> productInfo = FXCollections.observableArrayList(
+                                        "Name: " + document.getString("Name"), "Author: " + document.getString("Author"),
+                                        "Price: " + document.getString("Price") + "$", "Item Count: " + (document.getInteger("itemsLeft") - 1),
+                                        "Product ID: " + document.getObjectId("_id"));
+                                // Set categories to categoryListView
+                                productINFO.setItems(productInfo);
+                            }
+                            else{
+                                ObservableList<String> productInfo = FXCollections.observableArrayList(
+                                        "Name: " + document.getString("Name"), "Brand: " + document.getString("Brand"),
+                                        "Price: " + document.getString("Price") + "$", "Item Count: " + (document.getInteger("itemsLeft") - 1),
+                                        "Product ID: " + document.getObjectId("_id"));
+                                // Set categories to categoryListView
+                                productINFO.setItems(productInfo);
+                            }
+                            break;
+                        }
+                    }
+                } finally {
+                    cursor.close();
+                }
             }
         } else {
             System.out.println("The list is empty.");
