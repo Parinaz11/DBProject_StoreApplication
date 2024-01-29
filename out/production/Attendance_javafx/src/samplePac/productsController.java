@@ -1,7 +1,9 @@
 package samplePac;
 
 import com.mongodb.Cursor;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,16 +11,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -33,10 +36,12 @@ import static samplePac.Controller.*;
 public class productsController implements Initializable {
 
     @FXML
-    private ListView<String> categoryListView, productINFO;
+    private ListView<String> categoryListView;
+    @FXML
+    private ListView<String> productINFO;
 
     @FXML
-    private ListView<String> productListView;
+    private ListView<String> productListView, productReviewList;
 
     @FXML
     private TextField searchTextField;
@@ -46,11 +51,14 @@ public class productsController implements Initializable {
     @FXML
     private ImageView productPic;
     @FXML
-    private VBox infoBox;
+    private VBox infoBox, reviewBox;
     @FXML
-    private Button signOutButton, productsButton, addToCartButton;
+    private Button signOutButton, productsButton, addToCartButton, reviewButton;
     @FXML
     private Label notAvailableLabel;
+
+    @FXML
+    private TextArea reviewTextArea;
 
 
     // Initialize the controller
@@ -66,6 +74,12 @@ public class productsController implements Initializable {
         productsButton.setOnMouseEntered(e -> productsButton.setStyle("-fx-background-color: #5e4930; -fx-background-radius: 15;"));
         productsButton.setOnMouseExited(e -> productsButton.setStyle("-fx-background-color:  #8f6f46; -fx-background-radius: 15;"));
 
+//        reviewButton.setOnMouseEntered(e -> reviewButton.setStyle("-fx-background-color: #FB6F92; -fx-background-radius: 15;"));
+//        reviewButton.setOnMouseExited(e -> reviewButton.setStyle("-fx-background-color:   #FFB6C1; -fx-background-radius: 15;"));
+
+        reviewButton.setOnMouseEntered(e -> reviewButton.setStyle("-fx-background-color: #0077B6; -fx-background-radius: 90;"));
+        reviewButton.setOnMouseExited(e -> reviewButton.setStyle("-fx-background-color: #26A7De; -fx-background-radius: 90;"));
+
         // Create categories
         ObservableList<String> categories = FXCollections.observableArrayList(
                 "All", "Book", "Makeup", "Car", "Laptop", "TV", "Cellphone", "Motorcycle", "Clothing"
@@ -74,6 +88,9 @@ public class productsController implements Initializable {
         categoryListView.setItems(categories);
         productListView.setVisible(true);
         infoBox.setVisible(false);
+        reviewBox.setVisible(false);
+        reviewButton.setVisible(false);
+        reviewTextArea.setVisible(false);
         productPic.setVisible(false);
         productsButton.setVisible(false);
         addToCartButton.setVisible(false);
@@ -85,6 +102,9 @@ public class productsController implements Initializable {
                     // Update product list based on the selected category
                     productPic.setVisible(false);
                     infoBox.setVisible(false);
+                    reviewBox.setVisible(false);
+                    reviewButton.setVisible(false);
+                    reviewTextArea.setVisible(false);
                     productsButton.setVisible(false);
                     productListView.setVisible(true);
                     addToCartButton.setVisible(false);
@@ -149,7 +169,6 @@ public class productsController implements Initializable {
                                 }
 
                                 // Set product info
-
                                 if (document.getString("Category").equals("book")){
                                     ObservableList<String> productInfo = FXCollections.observableArrayList(
                                             "Name: " + document.getString("Name"), "Author: " + document.getString("Author"),
@@ -166,9 +185,23 @@ public class productsController implements Initializable {
                                     // Set categories to categoryListView
                                     productINFO.setItems(productInfo);
                                 }
+
+                                // Set product reviews
+                                // Clear the existing items in productReviewList
+                                productReviewList.setItems(FXCollections.emptyObservableList());
+                                ArrayList<String> reviewsList = (ArrayList<String>) document.get("reviews");
+                                if (reviewsList != null) {
+                                    ObservableList<String> reviewsObservableList = FXCollections.observableArrayList(reviewsList);
+                                    productReviewList.setItems(reviewsObservableList);
+                                }
+
                                 productINFO.setVisible(true);
                                 productPic.setVisible(true);
                                 infoBox.setVisible(true);
+                                reviewBox.setVisible(true);
+                                reviewButton.setVisible(true);
+                                reviewTextArea.setVisible(true);
+                                productReviewList.setVisible(true);
                                 productListView.setVisible(false);
                                 productsButton.setVisible(true);
                                 addToCartButton.setVisible(true);
@@ -189,6 +222,9 @@ public class productsController implements Initializable {
                     filterProducts(newValue);
                     productPic.setVisible(false);
                     infoBox.setVisible(false);
+                    reviewBox.setVisible(false);
+                    reviewButton.setVisible(false);
+                    reviewTextArea.setVisible(false);
                     productListView.setVisible(true);
                     productsButton.setVisible(false);
                     addToCartButton.setVisible(false);
@@ -211,6 +247,9 @@ public class productsController implements Initializable {
     public void onProductsButtonClicked(javafx.event.ActionEvent actionEvent){
         productListView.setVisible(true);
         infoBox.setVisible(false);
+        reviewBox.setVisible(false);
+        reviewButton.setVisible(false);
+        reviewTextArea.setVisible(false);
         productPic.setVisible(false);
         productsButton.setVisible(false);
         addToCartButton.setVisible(false);
@@ -227,6 +266,9 @@ public class productsController implements Initializable {
             productPic.setVisible(false);
             productINFO.setVisible(false);
             infoBox.setVisible(false);
+            reviewBox.setVisible(false);
+            reviewButton.setVisible(false);
+            reviewTextArea.setVisible(false);
             addToCartButton.setVisible(false);
             notAvailableLabel.setVisible(false);
         } else {
@@ -313,7 +355,6 @@ public class productsController implements Initializable {
                                 // Set categories to categoryListView
                                 productINFO.setItems(productInfo);
                             }
-
                             break;
                         }
                     }
@@ -323,6 +364,36 @@ public class productsController implements Initializable {
             }
         } else {
             System.out.println("The list is empty.");
+        }
+
+    }
+
+    public void onReviewButtonClicked(javafx.event.ActionEvent actionEvent){
+        System.out.println("On OK button clicked.");
+        String review = reviewTextArea.getText();
+        System.out.println("Review: " + review);
+        reviewTextArea.clear();
+
+        ObservableList<String> items = productINFO.getItems();
+        String name = items.get(0).replace("Name: ", "");
+
+        // Enter the review into the db for product info
+        Document query = new Document("Name", name);
+        FindIterable<Document> result = productCollection.find(query);
+        Document update = new Document("$push", new Document("reviews", review));
+        productCollection.updateOne(query, update);
+        System.out.println("Review added to product's list with name " + query.getString("Name"));
+
+        for (Document document : result) {
+            ArrayList<String> reviewsList = (ArrayList<String>) document.get("reviews");
+
+            if (reviewsList != null) {
+                ObservableList<String> reviewsObservableList = FXCollections.observableArrayList(reviewsList);
+                productReviewList.setItems(reviewsObservableList);
+            }
+            else{
+                System.out.println("The reviews array was empty.");
+            }
         }
 
     }
