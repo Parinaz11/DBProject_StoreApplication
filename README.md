@@ -1,6 +1,7 @@
 # Store Application
 Using Java, JavaFX (a Java graphics library for our GUI) and MongoDB (for our database) we created a simple store application.
 
+## Program Guide
 The database I created in mongodb, was named Store_Application and it had two collections named LoginInfo (each document containing Username, Password and an array called boughtProducts for a user) and Products (each document contianing Name, Price, Brand, Category, ImageID, itemsLeft and an array called reviews). 
 
 After running the program, you are faced with a login/signUp page in which you are required to enter your username and password. Usernames and passwords are stored in our local database. If you enter the wrong password for a username or your username does not exist, you are not authorized to enter and therefore should click on the little signUp button to enter the signUp page. In this page the username and password that you enter is stored as a new document in LoginInfo collection and you enter the main page showing our products.
@@ -11,7 +12,7 @@ For each product you click on, you're able to see the information that is collec
 
 If you want to exit the program, simply click on the SignOut button to enter the login page and then click on the EXIT button.
 
-# How to Run the Program
+## How to Run the Program
 For this project we are going to make use of three tools;
 
 Mongodb server
