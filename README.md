@@ -2,15 +2,15 @@
 
 For this project we are going to make use of three tools;
 
-mongodb server
+Mongodb server
 
 mongodb-java-driver 3.12.14
 
-scene builder
+Scene builder
 
-if you have these tools installed on your system, you can go straight to clone and open this project on your system
+If you already have these tools installed on your system, you can go straight to clone and open this project on your system.
 
-first, we are going to set up our mongodb server. Go to the link below and download mongodb 
+First, we are going to set up our mongodb server. Go to the link below and download mongodb 
 
 https://www.mongodb.com/download-center#community
 
@@ -32,7 +32,7 @@ Now that we have mongodb up and running, lets create our project.
 
 I will be making use of javafx, so we can create a javafx project and set it up.
 
-Less i forget we will need scene builder to create our awesome GUI for the project. so if u don't have scene builder on your system, go to the link below and download it, 
+Less i forget we will need scene builder to create our awesome GUI for the project. So if u don't have scene builder on your system, go to the link below and download it, 
 
 http://gluonhq.com/products/scene-builder/
 
@@ -44,12 +44,13 @@ Go to https://www.jetbrains.com/help/idea/opening-fxml-files-in-javafx-scene-bui
 
 Go to https://docs.oracle.com/javase/8/scene-builder-2/work-with-java-ides/sb-with-nb.htm for netbeans 
 
-we need a driver in our java application that will be able to communicate with the mongodb server right from our java application
+We need a driver in our java application that will be able to communicate with the mongodb server right from our java application
 
-there are different parkages out there but i will be using mongo-java-driver 3.5.
+There are different parkages out there but i will be using mongo-java-driver 3.5.0
 
 Go to the link below to download it,
 
 https://jar-download.com/?search_box=mongo-java-driver
 
-what you need to do now is to add the mongo-java-driver 3.12.14 to your java library
+What you need to do now is to add the mongo-java-driver 3.12.14 to your java library.
+How? In IntelliJ IDEA: go to File -> Project Structure -> Libraries. Then click on the plus sign above and select mongo-java-driver-3.5.0 JAR file that you downloaded. You're ready to go.
