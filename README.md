@@ -53,4 +53,8 @@ Go to the link below to download it,
 https://jar-download.com/?search_box=mongo-java-driver
 
 What you need to do now is to add the mongo-java-driver 3.12.14 to your java library.
-How? In IntelliJ IDEA: go to File -> Project Structure -> Libraries. Then click on the plus sign above and select mongo-java-driver-3.5.0 JAR file that you downloaded. You're ready to go.
+How? Open IntelliJ IDEA follow these steps:
+
+File -> Project Structure -> Libraries
+
+Then click on the plus sign above and select mongo-java-driver-3.5.0 JAR file that you downloaded. You're ready to go.
