@@ -71,3 +71,24 @@ How? Open IntelliJ IDEA follow these steps:
 File -> Project Structure -> Libraries
 
 Then click on the plus sign above and select mongo-java-driver-3.5.0 JAR file that you downloaded. You're ready to go.
+
+
+# Screenshots
+Login and sign up page:
+![1 LoginPage](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/5102da21-6cf9-491a-bdc9-8ae47f950802)
+
+![2 SignUpPage](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/90064ce8-371b-49a1-a3d8-3517d0a2487d)
+
+Main product page:
+![3 AllProducts](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/7cfd3992-9405-46db-8bf4-310325936c25)
+
+![4_2 BookProduct](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/00053901-7f3d-411a-812c-804241a07724)
+
+## MongoDB database
+Product Collection:
+![7 ProductCollection](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/c02d5b1e-8ec7-459d-81af-eefa45b69fcc)
+
+User Collection:
+![9 UserCollection](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/8578c442-68f7-4f98-95fc-ecc43ce7fb4a)
+
+![8 UserAddToCart](https://github.com/Parinaz11/DBProject_StoreApplication/assets/99842583/bb221765-ea6c-44f4-b31c-8db28731d006)
